@@ -18,12 +18,16 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+      const apiUrl = process.env.REACT_APP_API_URL?.replace(/\/+$/, ''); // Remove trailing slashes
+      console.log('Attempting login with API URL:', apiUrl);
+      const response = await axios.post(`${apiUrl}/api/auth/login`, {
         email,
         password
       });
 
       const { token, user } = response.data;
+      console.log('Login successful for user:', user.email);
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
@@ -33,9 +37,10 @@ export const AuthProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
+      console.error('Login error:', error.response?.data || error.message);
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed'
+        message: error.response?.data?.message || 'Login failed. Please try again.'
       };
     }
   };
