@@ -31,14 +31,31 @@ router.get('/', adminAuth, taskController.getAllTasks);
 router.get('/agent/:agentId', adminAuth, taskController.getAgentTasks);
 router.patch('/:taskId', adminAuth, taskController.updateTask);
 
-// Mount the router onto the app at the desired base path
-// Vercel rewrites will handle routing to this function, so the base path here might be just '/' or '/api/tasks' depending on vercel.json
-// Let's use '/' here and handle the /api/tasks base path in vercel.json
+// Mount the router onto the app at the root path since vercel.json handles the /api/tasks prefix
 app.use('/', router);
 
 // Export the Express app as a Vercel handler
 module.exports = async (req, res) => {
-  await connectDB(); // Connect to database before handling request
-  // Pass the request and response to the Express app
-  app(req, res);
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+  );
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  try {
+    await connectDB();
+    app(req, res);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 }; 
