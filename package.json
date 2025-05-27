@@ -1,0 +1,13 @@
+{
+  "name": "task-management-system",
+  "version": "1.0.0",
+  "description": "MERN Stack Task Management System",
+  "scripts": {
+    "start": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "init-admin": "cd backend && npm run init-admin"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+} 
