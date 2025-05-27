@@ -1,10 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
-// Load environment variables
-dotenv.config();
 
 // Create Express app
 const app = express();
@@ -14,24 +9,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+// Note: Routes and middleware are now primarily handled within the api/ directory for serverless deployment.
+// This server.js file might only be used for local development setup that mimics the serverless environment
+// or can be entirely removed if local development is also done via a serverless emulation tool.
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/agents', require('./routes/agents'));
-app.use('/api/tasks', require('./routes/tasks'));
-
-// Error handling middleware
+// Error handling middleware (keep for potential local testing setup)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-}); 
+// This file no longer starts a traditional server listening on a port.
+// In a serverless deployment, each function (e.g., in api/) is an entry point.
+// For local development, you might use a tool like vercel dev.
+
+module.exports = app; // Export the app for potential use in local serverless emulation 
