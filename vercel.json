@@ -7,16 +7,6 @@
     {
       "source": "/api/tasks/(.*)",
       "destination": "/api/tasks.js"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/handler.js" // A generic handler if needed, or remove if all routes are explicit
     }
-  ],
-  "functions": {
-    "api/**/*.js": {
-      "memory": 1024,
-      "maxDuration": 10 // Adjust as needed
-    }
-  }
+  ]
 } 
