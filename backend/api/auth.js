@@ -4,21 +4,22 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-// CORS configuration
-const corsOptions = {
-  origin: 'https://task-management-swart-alpha.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
+// CORS middleware
+const corsMiddleware = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://task-management-swart-alpha.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+  next();
 };
 
-// Apply CORS to all routes
-router.use(cors(corsOptions));
-
-// Handle preflight requests
-router.options('*', cors(corsOptions));
+// Apply CORS middleware to all routes
+router.use(corsMiddleware);
 
 // Auth routes
 router.post('/login', authController.login);

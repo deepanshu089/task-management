@@ -1,25 +1,9 @@
 const express = require('express');
-const cors = require('cors');
 
 // Create Express app
 const app = express();
 
-// CORS configuration
-const corsOptions = {
-  origin: 'https://task-management-swart-alpha.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
-
 // Middleware
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
