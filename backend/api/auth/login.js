@@ -7,7 +7,7 @@ const app = express();
 // CORS middleware
 app.use(cors({
   origin: 'https://task-management-swart-alpha.vercel.app',
-  methods: ['POST', 'OPTIONS'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
@@ -16,6 +16,11 @@ app.use(express.json());
 
 // Handle preflight
 app.options('*', cors());
+
+// Test route
+app.get('/', (req, res) => {
+  res.json({ message: 'Login endpoint is working' });
+});
 
 // Login route
 app.post('/', async (req, res) => {

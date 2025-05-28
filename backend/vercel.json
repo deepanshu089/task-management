@@ -10,14 +10,6 @@
     {
       "src": "/api/auth/login",
       "dest": "/api/auth/login.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/$1.js"
     }
   ]
 } 
