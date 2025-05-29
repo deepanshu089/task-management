@@ -8,9 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/api/auth/login",
-      "methods": ["GET", "POST", "OPTIONS"],
-      "dest": "/api/auth/login.js"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     }
   ]
-} 
+}
