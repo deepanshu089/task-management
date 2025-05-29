@@ -9,6 +9,7 @@
   "routes": [
     {
       "src": "/api/auth/login",
+      "methods": ["GET", "POST", "OPTIONS"],
       "dest": "/api/auth/login.js"
     }
   ]
