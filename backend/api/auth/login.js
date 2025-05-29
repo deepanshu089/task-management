@@ -1,10 +1,6 @@
-const connectDB = require('../../config/db');
 const authController = require('../../controllers/authController');
 
 module.exports = async (req, res) => {
-  // Connect to database
-  await connectDB();
-
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,7 +19,6 @@ module.exports = async (req, res) => {
   // Handle POST request
   if (req.method === 'POST') {
     try {
-      const { email, password } = req.body;
       await authController.login(req, res);
     } catch (error) {
       console.error('Login error:', error);
